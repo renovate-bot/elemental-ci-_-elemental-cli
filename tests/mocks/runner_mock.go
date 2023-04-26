@@ -51,7 +51,7 @@ func (r *FakeRunner) Run(command string, args ...string) ([]byte, error) {
 	return out, err
 }
 
-func (r *FakeRunner) RunCmd(cmd *exec.Cmd) ([]byte, error) {
+func (r *FakeRunner) RunCmd(_ *exec.Cmd) ([]byte, error) {
 	if r.SideEffect != nil {
 		if len(r.cmds) > 0 {
 			lastCmd := len(r.cmds) - 1
@@ -119,9 +119,9 @@ func (r FakeRunner) MatchMilestones(cmdList [][]string) error {
 		match = strings.Join(cmdList[0][:], " ")
 		if !strings.HasPrefix(got, match) {
 			continue
-		} else {
-			cmdList = cmdList[1:]
 		}
+
+		cmdList = cmdList[1:]
 	}
 
 	if len(cmdList) > 0 {
@@ -129,6 +129,12 @@ func (r FakeRunner) MatchMilestones(cmdList [][]string) error {
 	}
 
 	return nil
+}
+
+// GetCmds returns the list of commands recorded by this FakeRunner instance
+// this is helpful to debug tests
+func (r FakeRunner) GetCmds() [][]string {
+	return r.cmds
 }
 
 func (r FakeRunner) GetLogger() v1.Logger {

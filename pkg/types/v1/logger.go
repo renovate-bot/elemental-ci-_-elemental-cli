@@ -23,7 +23,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/mudler/luet/pkg/api/core/types"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -50,7 +49,6 @@ type Logger interface {
 	SetOutput(writer io.Writer)
 	SetFormatter(formatter log.Formatter)
 
-	Copy() (types.Logger, error)
 	SetContext(string)
 	SpinnerStop()
 	Spinner()
@@ -110,12 +108,6 @@ func (w *logrusWrapper) Ask() bool {
 	return false
 }
 
-func (w *logrusWrapper) Copy() (types.Logger, error) {
-	c := *w
-	copy := &c
-	return copy, nil
-}
-
 func (w *logrusWrapper) Success(r ...interface{}) {
 	// Will redirect to the Info method below and be cleaned there
 	w.Info(r...)
@@ -166,4 +158,4 @@ func convert(args []interface{}) string {
 func (w *logrusWrapper) SetContext(string) {}
 func (w *logrusWrapper) Spinner()          {}
 func (w *logrusWrapper) SpinnerStop()      {}
-func (w *logrusWrapper) Screen(t string)   {}
+func (w *logrusWrapper) Screen(_ string)   {}

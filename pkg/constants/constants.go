@@ -53,8 +53,8 @@ const (
 	BiosFs             = ""
 	EfiSize            = uint(64)
 	OEMSize            = uint(64)
-	StateSize          = uint(15360)
-	RecoverySize       = uint(8192)
+	StateSize          = uint(8192)
+	RecoverySize       = uint(4096)
 	PersistentSize     = uint(0)
 	BiosSize           = uint(1)
 	ImgSize            = uint(0)
@@ -102,13 +102,6 @@ const (
 	AfterUpgradeHook       = "after-upgrade"
 	PostUpgradeHook        = "post-upgrade"
 	BeforeUpgradeHook      = "before-upgrade"
-
-	// Luet constants
-	LuetCosignPlugin    = "luet-cosign"
-	LuetMtreePlugin     = "luet-mtree"
-	LuetDefaultRepoURI  = "quay.io/costoolkit/releases-green"
-	LuetRepoMaxPrio     = 1
-	LuetDefaultRepoPrio = 90
 
 	// SELinux targeted policy paths
 	SELinuxTargetedPath        = "/etc/selinux/targeted"
@@ -159,15 +152,6 @@ func GetDefaultSquashfsCompressionOptions() []string {
 		options = append(options, "x86")
 	}
 	return options
-}
-
-func GetBuildDiskDefaultPackages() map[string]string {
-	return map[string]string{
-		"channel:system/grub2-efi-image": "efi",
-		"channel:system/grub2-config":    "root",
-		"channel:system/grub2-artifacts": "root/grub2",
-		"channel:recovery/cos-img":       "root/cOS",
-	}
 }
 
 // GetRunKeyEnvMap returns environment variable bindings to RunConfig data

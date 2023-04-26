@@ -1,10 +1,8 @@
-ARG GO_VERSION=1.18
+ARG GO_VERSION=1.20
 ARG COSIGN_VERSION=1.4.1-5
 ARG LEAP_VERSION=15.4
 
 FROM quay.io/costoolkit/releases-green:cosign-toolchain-$COSIGN_VERSION AS cosign-bin
-
-
 
 FROM golang:${GO_VERSION}-alpine as elemental-bin
 ENV CGO_ENABLED=0

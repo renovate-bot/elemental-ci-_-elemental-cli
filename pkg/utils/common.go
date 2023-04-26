@@ -23,7 +23,7 @@ import (
 	"fmt"
 	"io"
 	"io/fs"
-	random "math/rand"
+	"math/rand"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -329,7 +329,7 @@ func IsMounted(config *v1.Config, part *v1.Partition) (bool, error) {
 func GetTempDir(config *v1.Config, suffix string) string {
 	// if we got a TMPDIR var, respect and use that
 	if suffix == "" {
-		random.Seed(time.Now().UnixNano())
+		random := rand.New(rand.NewSource(time.Now().UnixNano()))
 		suffix = strconv.Itoa(int(random.Uint32()))
 	}
 	elementalTmpDir := fmt.Sprintf("elemental-%s", suffix)
@@ -472,30 +472,6 @@ func FindFileWithPrefix(fs v1.FS, path string, prefixes ...string) (string, erro
 		}
 	}
 	return "", fmt.Errorf("No file found with prefixes: %v", prefixes)
-}
-
-var errInvalidArch = fmt.Errorf("invalid arch")
-
-func ArchToGolangArch(arch string) (string, error) {
-	switch strings.ToLower(arch) {
-	case cnst.Archx86:
-		return cnst.ArchAmd64, nil
-	case cnst.ArchArm64:
-		return cnst.ArchArm64, nil
-	default:
-		return "", errInvalidArch
-	}
-}
-
-func GolangArchToArch(arch string) (string, error) {
-	switch strings.ToLower(arch) {
-	case cnst.ArchAmd64:
-		return cnst.Archx86, nil
-	case cnst.ArchArm64:
-		return cnst.ArchArm64, nil
-	default:
-		return "", errInvalidArch
-	}
 }
 
 // CalcFileChecksum opens the given file and returns the sha256 checksum of it.
